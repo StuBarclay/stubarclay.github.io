@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Geoscape Building Attributes</title>
+<style>
+  :root{ color-scheme: light; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:#0b0f14; color:#e8eef3; min-height:100vh;
+    display:flex; flex-direction:column; align-items:center;
+    padding:32px 20px 48px;
+  }
+  .head{ width:100%; max-width:1180px; }
+  .kicker{ color:#2fbf9f; font-weight:700; font-size:13px; letter-spacing:.14em; text-transform:uppercase; }
+  h1{ font-size:30px; margin:6px 0 4px; letter-spacing:-.01em; }
+  .sub{ color:#9fb0bd; font-size:15px; max-width:760px; line-height:1.5; }
+  .wrap{
+    width:100%; max-width:1180px; margin-top:26px;
+    display:grid; grid-template-columns:1.15fr 1fr; gap:26px; align-items:stretch;
+  }
+  @media (max-width:900px){ .wrap{ grid-template-columns:1fr; } }
+
+  /* ---- building stage ---- */
+  .stage{
+    position:relative; background:radial-gradient(120% 90% at 50% 30%, #16232c 0%, #0d141a 70%);
+    border:1px solid #22303a; border-radius:18px; padding:18px; min-height:520px;
+    display:flex; align-items:center; justify-content:center; overflow:hidden;
+  }
+  .stage .hint{ position:absolute; bottom:14px; left:0; right:0; text-align:center;
+    color:#5f7180; font-size:12.5px; letter-spacing:.02em; }
+  svg{ width:100%; height:auto; max-width:520px; display:block; }
+
+  .hot{ cursor:pointer; }
+  .hot .dot{ transition:transform .15s ease, opacity .15s ease; transform-origin:center; transform-box:fill-box; }
+  .hot:hover .dot, .hot.active .dot{ transform:scale(1.35); }
+  .hot .ring{ opacity:0; transition:opacity .15s ease; }
+  .hot:hover .ring, .hot.active .ring{ opacity:1; }
+  .plabel{ font-size:12px; font-weight:600; fill:#cdd8e0; pointer-events:none; }
+
+  /* ---- attribute panel ---- */
+  .panel{ display:flex; flex-direction:column; gap:10px; }
+  .card{
+    background:#121a22; border:1px solid #232f38; border-left:4px solid #2b6f6a;
+    border-radius:12px; padding:14px 16px; cursor:pointer;
+    transition:border-color .15s ease, background .15s ease, transform .1s ease;
+    display:flex; gap:14px; align-items:flex-start;
+  }
+  .card:hover{ background:#16212b; }
+  .card.active{ border-color:#2fbf9f; border-left-color:#2fbf9f; background:#15242a; }
+  .num{ flex:0 0 30px; height:30px; border-radius:8px; background:#1c2a33; color:#2fbf9f;
+    font-weight:700; font-size:15px; display:flex; align-items:center; justify-content:center; }
+  .card.active .num{ background:#2fbf9f; color:#08110d; }
+  .ctext h3{ font-size:16px; margin-bottom:2px; }
+  .ctext .why{ color:#9fb0bd; font-size:13.5px; line-height:1.45;
+    max-height:0; overflow:hidden; opacity:0; transition:max-height .25s ease, opacity .2s ease, margin .2s ease; }
+  .card.active .why{ max-height:80px; opacity:1; margin-top:6px; }
+  .ctext .tag{ color:#6b7d8a; font-size:11px; letter-spacing:.05em; text-transform:uppercase; display:block; }
+
+  .foot{ width:100%; max-width:1180px; margin-top:22px; color:#5f7180; font-size:12px; line-height:1.5; }
+  .badge{ display:inline-block; background:#12241f; border:1px solid #2fbf9f55; color:#2fbf9f;
+    font-weight:700; font-size:11px; letter-spacing:.12em; text-transform:uppercase;
+    padding:5px 12px; border-radius:999px; }
+</style>
+</head>
+<body>
+  <div class="head">
+    <span class="kicker">Where Geoscape becomes the hero</span>
+    <h1>One building, richly described</h1>
+    <p class="sub">The model is only as good as what it knows about each dwelling. Geoscape supplies the building-level attributes that turn a blunt regional average into a per-building estimate. Click a marker on the building — or an attribute — to see why it matters.</p>
+  </div>
+
+  <div class="wrap">
+    <!-- BUILDING STAGE -->
+    <div class="stage">
+      <svg viewBox="0 0 520 520" aria-label="Interactive building">
+        <!-- ground -->
+        <ellipse cx="260" cy="470" rx="210" ry="26" fill="#0a1519"/>
+        <rect x="70" y="452" width="380" height="20" rx="6" fill="#1f5a3a"/>
+        <rect x="70" y="452" width="380" height="7" rx="3" fill="#2f7d52"/>
+
+        <!-- sun / climate glow (top-right) -->
+        <circle cx="440" cy="80" r="30" fill="#f6b93b" opacity="0.9"/>
+        <g stroke="#f6b93b" stroke-width="4" stroke-linecap="round" opacity="0.8">
+          <line x1="440" y1="30" x2="440" y2="14"/><line x1="440" y1="146" x2="440" y2="130"/>
+          <line x1="390" y1="80" x2="374" y2="80"/><line x1="506" y1="80" x2="490" y2="80"/>
+          <line x1="405" y1="45" x2="394" y2="34"/><line x1="486" y1="126" x2="475" y2="115"/>
+          <line x1="475" y1="45" x2="486" y2="34"/><line x1="394" y1="126" x2="405" y2="115"/>
+        </g>
+
+        <!-- house body -->
+        <rect x="150" y="250" width="220" height="205" fill="#1a2a33"/>
+        <rect x="260" y="250" width="110" height="205" fill="#142129"/>
+        <rect x="150" y="250" width="220" height="205" fill="none" stroke="#2fbf9f" stroke-width="3"/>
+        <!-- storey divider -->
+        <line x1="150" y1="352" x2="370" y2="352" stroke="#2fbf9f" stroke-width="1.5" opacity="0.5" stroke-dasharray="5 5"/>
+
+        <!-- roof -->
+        <polygon points="132,252 260,150 388,252" fill="#227d8c"/>
+        <polygon points="260,150 388,252 260,252" fill="#175d69"/>
+        <polygon points="132,252 260,150 388,252" fill="none" stroke="#2fbf9f" stroke-width="3" stroke-linejoin="round"/>
+
+        <!-- solar panels on left roof slope -->
+        <g id="pv">
+          <polygon points="170,235 200,235 192,212 162,212" fill="#0d1b2a" stroke="#7ec8ff" stroke-width="2"/>
+          <polygon points="205,235 235,235 227,212 197,212" fill="#0d1b2a" stroke="#7ec8ff" stroke-width="2"/>
+          <polygon points="184,208 214,208 206,186 176,186" fill="#0d1b2a" stroke="#7ec8ff" stroke-width="2"/>
+          <polygon points="219,208 249,208 241,186 211,186" fill="#0d1b2a" stroke="#7ec8ff" stroke-width="2"/>
+        </g>
+
+        <!-- windows -->
+        <g fill="#8fe4d3" stroke="#2fbf9f" stroke-width="2">
+          <rect x="176" y="285" width="46" height="42" rx="3"/>
+          <rect x="298" y="285" width="46" height="42" rx="3"/>
+          <rect x="176" y="382" width="46" height="42" rx="3"/>
+        </g>
+        <!-- door -->
+        <rect x="290" y="392" width="46" height="63" rx="4" fill="#2fbf9f"/>
+        <circle cx="329" cy="424" r="3" fill="#08110d"/>
+
+        <!-- pool -->
+        <rect x="386" y="418" width="96" height="40" rx="7" fill="#c9d3da"/>
+        <rect x="392" y="424" width="84" height="28" rx="5" fill="#1a6fa0" stroke="#0f4d72" stroke-width="1.5"/>
+        <path d="M398 432 q10 -5 20 0 t20 0 t20 0" stroke="#7fd0ef" stroke-width="2" fill="none"/>
+        <path d="M398 442 q10 -5 20 0 t20 0 t20 0" stroke="#7fd0ef" stroke-width="2" fill="none"/>
+
+        <!-- ===== HOTSPOTS ===== -->
+        <!-- 1 total floor area -->
+        <g class="hot" data-i="0">
+          <circle class="ring" cx="260" cy="415" r="20" fill="none" stroke="#2fbf9f" stroke-width="2"/>
+          <circle class="dot" cx="260" cy="415" r="11" fill="#2fbf9f" stroke="#08110d" stroke-width="2"/>
+          <text class="dot" x="260" y="419" text-anchor="middle" font-size="12" font-weight="700" fill="#08110d">1</text>
+        </g>
+        <!-- 2 number of floors -->
+        <g class="hot" data-i="1">
+          <circle class="ring" cx="150" cy="352" r="20" fill="none" stroke="#2fbf9f" stroke-width="2"/>
+          <circle class="dot" cx="150" cy="352" r="11" fill="#2fbf9f" stroke="#08110d" stroke-width="2"/>
+          <text class="dot" x="150" y="356" text-anchor="middle" font-size="12" font-weight="700" fill="#08110d">2</text>
+        </g>
+        <!-- 3 solar generation -->
+        <g class="hot" data-i="2">
+          <circle class="ring" cx="205" cy="210" r="20" fill="none" stroke="#2fbf9f" stroke-width="2"/>
+          <circle class="dot" cx="205" cy="210" r="11" fill="#2fbf9f" stroke="#08110d" stroke-width="2"/>
+          <text class="dot" x="205" y="214" text-anchor="middle" font-size="12" font-weight="700" fill="#08110d">3</text>
+        </g>
+        <!-- 4 roof attributes -->
+        <g class="hot" data-i="3">
+          <circle class="ring" cx="300" cy="195" r="20" fill="none" stroke="#2fbf9f" stroke-width="2"/>
+          <circle class="dot" cx="300" cy="195" r="11" fill="#2fbf9f" stroke="#08110d" stroke-width="2"/>
+          <text class="dot" x="300" y="199" text-anchor="middle" font-size="12" font-weight="700" fill="#08110d">4</text>
+        </g>
+        <!-- 5 pool presence -->
+        <g class="hot" data-i="4">
+          <circle class="ring" cx="434" cy="438" r="20" fill="none" stroke="#2fbf9f" stroke-width="2"/>
+          <circle class="dot" cx="434" cy="438" r="11" fill="#2fbf9f" stroke="#08110d" stroke-width="2"/>
+          <text class="dot" x="434" y="442" text-anchor="middle" font-size="12" font-weight="700" fill="#08110d">5</text>
+        </g>
+        <!-- 6 climate zone -->
+        <g class="hot" data-i="5">
+          <circle class="ring" cx="440" cy="80" r="26" fill="none" stroke="#2fbf9f" stroke-width="2"/>
+          <circle class="dot" cx="440" cy="80" r="11" fill="#2fbf9f" stroke="#08110d" stroke-width="2"/>
+          <text class="dot" x="440" y="84" text-anchor="middle" font-size="12" font-weight="700" fill="#08110d">6</text>
+        </g>
+      </svg>
+      <div class="hint">Tap a numbered marker or a card &rarr;</div>
+    </div>
+
+    <!-- ATTRIBUTE PANEL -->
+    <div class="panel" id="panel"></div>
+  </div>
+
+  <div class="foot">
+    <span class="badge">Geoscape building attributes</span><br><br>
+    Each attribute below is a Geoscape-supplied building fact used by the residential emissions model. They are what let the model estimate one <em>specific</em> dwelling rather than fall back on a postcode or regional average.
+  </div>
+
+<script>
+  const attrs = [
+    {t:"Total floor area", tag:"m² per building", why:"Larger homes have more space to heat, cool, light and power — so floor area scales the baseline energy estimate directly."},
+    {t:"Number of floors", tag:"storeys", why:"More storeys change the exposed surface and internal volume, affecting overall energy demand for conditioning."},
+    {t:"Solar generation", tag:"rooftop PV", why:"On-site solar offsets electricity that would otherwise be drawn from the grid, reducing net grid emissions."},
+    {t:"Roof attributes", tag:"height · exposure · shading", why:"Roof geometry and exposure influence heating and cooling loads, and how much solar a roof can realistically capture."},
+    {t:"Pool presence", tag:"pool flag & area", why:"A pool adds a continuous pump (and often heating) load on top of normal household use — a distinct additive demand."},
+    {t:"Climate zone", tag:"ABCB zone", why:"Local climate drives how much heating and cooling a dwelling needs, setting the seasonal energy benchmark."}
+  ];
+  const panel = document.getElementById('panel');
+  attrs.forEach((a,i)=>{
+    const c = document.createElement('div');
+    c.className = 'card'; c.dataset.i = i;
+    c.innerHTML = `<div class="num">${i+1}</div>
+      <div class="ctext"><span class="tag">${a.tag}</span><h3>${a.t}</h3>
+      <div class="why">${a.why}</div></div>`;
+    panel.appendChild(c);
+  });
+
+  const cards = [...document.querySelectorAll('.card')];
+  const hots  = [...document.querySelectorAll('.hot')];
+  function select(i){
+    cards.forEach(c=>c.classList.toggle('active', +c.dataset.i===i));
+    hots.forEach(h=>h.classList.toggle('active', +h.dataset.i===i));
+  }
+  cards.forEach(c=>c.addEventListener('click', ()=>select(+c.dataset.i)));
+  hots.forEach(h=>h.addEventListener('click', ()=>select(+h.dataset.i)));
+  select(0); // open the first by default
+</script>
+</body>
+</html>
